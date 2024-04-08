@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({super.key});
+  Function findByName;
+  SearchField({super.key, required this.findByName});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,9 @@ class SearchField extends StatelessWidget {
                 color: Colors.black,
                 size: 24,
               )),
+          onChanged: (value) {
+            findByName(value);
+          },
         ),
       ),
     );
