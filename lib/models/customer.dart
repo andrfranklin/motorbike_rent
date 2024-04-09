@@ -3,8 +3,8 @@ import 'package:motorbikes_rent/models/address.dart';
 class Customer {
   String name;
   String cpf;
-  int age;
+  DateTime birthDate;
   Address address;
 
-  Customer(this.name, this.cpf, this.age, this.address);
+  Customer(this.name, this.cpf, this.birthDate, this.address);
 }

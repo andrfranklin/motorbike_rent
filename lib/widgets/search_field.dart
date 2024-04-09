@@ -14,7 +14,7 @@ class SearchField extends StatelessWidget {
         child: TextField(
           decoration: InputDecoration(
               hintText: 'Buscar',
-              hintStyle: TextStyle(fontSize: 16),
+              hintStyle: const TextStyle(fontSize: 16),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),

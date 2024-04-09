@@ -1,6 +1,6 @@
 class Brand {
   String name;
-  String image;
+  String logo;
 
-  Brand({required this.name, required this.image});
+  Brand({required this.name, required this.logo});
 }

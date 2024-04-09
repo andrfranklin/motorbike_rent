@@ -42,4 +42,4 @@ List<Motorbike> getMotorbikes() {
 
 Brand _getBrand(String name) =>
     getBrands().firstWhere((brand) => brand.name == name,
-        orElse: () => Brand(name: '', image: ''));
+        orElse: () => Brand(name: '', logo: ''));

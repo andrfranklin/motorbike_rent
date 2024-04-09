@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:motorbikes_rent/models/customer.dart';
 import 'package:motorbikes_rent/screens/customer_details.dart';
-import 'package:motorbikes_rent/widgets/motorbike_card_list.dart';
-import 'package:motorbikes_rent/widgets/search_field.dart';
+import 'package:motorbikes_rent/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,9 +22,6 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.mulishTextTheme()),
       home: const MyHomePage(),
-      routes: {
-        '/customer_details': (context) => const CustomerDetails(),
-      },
     );
   }
 }
@@ -38,11 +34,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String? _filterName;
-  Customer? customer;
+  Customer? _customer;
+  final PageController _pageController = PageController();
 
   _findByName(String? name) {
     setState(() {
       _filterName = name!.isNotEmpty ? name : null;
+    });
+  }
+
+  _createCustomer(Customer customer) {
+    setState(() {
+      _customer = customer;
     });
   }
 
@@ -69,46 +72,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          SearchField(
-            findByName: _findByName,
-          ),
-          Expanded(
-              child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                        color: Colors.grey.shade100,
-                      ),
-                      child: Column(children: [
-                        const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 16, top: 16),
-                                child: Text(
-                                  "PRINCIPAIS MODELOS",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              )
-                            ]),
-                        Container(
-                          height: 300,
-                          padding: const EdgeInsets.only(top: 16, bottom: 16),
-                          child: MotorbikeCardList(
-                            findByName: _filterName,
-                          ),
-                        ),
-                      ])))),
-        ]),
+        body: PageView(
+          controller: _pageController,
+          children: [
+            Home(_findByName, _filterName),
+            CustomerDetails(
+                customer: _customer, createCustomer: _createCustomer)
+          ],
+        ),
         bottomNavigationBar: Container(
           height: 70,
           decoration: BoxDecoration(
@@ -122,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.black.withOpacity(0.1),
                   spreadRadius: 0,
                   blurRadius: 10,
-                  offset: Offset(0, -1), // changes position of shadow
+                  offset: const Offset(0, -1), // changes position of shadow
                 ),
               ]),
           child: Row(
@@ -131,7 +102,11 @@ class _MyHomePageState extends State<MyHomePage> {
               IconButton(
                 icon: const Icon(Icons.home),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/');
+                  _pageController.animateToPage(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.decelerate,
+                  );
                 },
               ),
               IconButton(
@@ -152,10 +127,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 visualDensity: VisualDensity.standard,
               ),
               IconButton(
-                icon: Icon(Icons.person),
+                icon: const Icon(Icons.person),
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed('/customer_details', arguments: customer);
+                  _pageController.animateToPage(
+                    1,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.decelerate,
+                  );
                 },
               ),
             ],
