@@ -1,10 +1,7 @@
-import 'package:motorbikes_rent/models/address.dart';
-
 class Customer {
+  String? id;
   String name;
-  String cpf;
-  DateTime birthDate;
-  Address address;
+  String email;
 
-  Customer(this.name, this.cpf, this.birthDate, this.address);
+  Customer({required this.name, required this.email, this.id});
 }

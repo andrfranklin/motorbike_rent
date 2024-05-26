@@ -1,17 +1,17 @@
-import 'package:motorbikes_rent/models/brand.dart';
-
 class Motorbike {
-  Brand brand;
+  String? id;
+  String brandId;
   String model;
   double price;
   double rentalPrice;
   List<String> images;
 
   Motorbike(
-      {required this.brand,
+      {required this.brandId,
       required this.model,
       required this.images,
-      required this.price})
+      required this.price,
+      this.id})
       : rentalPrice = price * 0.1;
 
   set newRentalTax(double newTax) => rentalPrice = price * newTax;

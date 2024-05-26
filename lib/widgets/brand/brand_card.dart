@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/models/brand.dart';
+import 'package:motorbikes_rent/utils/base_url.dart';
 
 class BrandCard extends StatelessWidget {
   final Brand brand;
   final int? cardIndex;
+  final _baseUrlStorage = '${BaseUrl.storage}brand%2F';
 
   const BrandCard({super.key, required this.brand, this.cardIndex});
 
@@ -31,8 +33,8 @@ class BrandCard extends StatelessWidget {
               child: Center(
                 child: Hero(
                   tag: brand.name,
-                  child: Image.asset(
-                    brand.logo,
+                  child: Image.network(
+                    '$_baseUrlStorage${brand.logo}?alt=media',
                     fit: BoxFit.fitWidth,
                   ),
                 ),

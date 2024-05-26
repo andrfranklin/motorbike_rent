@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/data/motorbike_data.dart';
+import 'package:motorbikes_rent/providers/motorbike.dart';
 import 'package:motorbikes_rent/screens/motorbike_details.dart';
-import 'package:motorbikes_rent/widgets/motorbike_card.dart';
+import 'package:motorbikes_rent/widgets/motorbike/motorbike_card.dart';
+import 'package:provider/provider.dart';
 
 class MotorbikeCardList extends StatefulWidget {
   final String? findByName;
@@ -14,13 +16,14 @@ class MotorbikeCardList extends StatefulWidget {
 class MotorbikeCardListState extends State<MotorbikeCardList> {
   @override
   Widget build(BuildContext context) {
+    final motorbikeProvider = Provider.of<MotorbikeProvider>(context);
     var motorbikes = widget.findByName != null
-        ? getMotorbikes()
+        ? motorbikeProvider.motorbikes
             .where((element) => element.model
                 .toLowerCase()
                 .contains(widget.findByName!.toLowerCase()))
             .toList()
-        : getMotorbikes();
+        : motorbikeProvider.motorbikes;
 
     return ListView.builder(
         itemCount: motorbikes.length,

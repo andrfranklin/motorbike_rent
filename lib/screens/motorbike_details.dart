@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/models/motorbike.dart';
+import 'package:motorbikes_rent/providers/brand.dart';
 import 'package:motorbikes_rent/widgets/custom_back_arrow.dart';
 import 'package:motorbikes_rent/widgets/image_carousel.dart';
-import 'package:motorbikes_rent/widgets/rental_price_option_card.dart';
+import 'package:motorbikes_rent/widgets/motorbike/rental_price_option_card.dart';
+import 'package:provider/provider.dart';
 
 class MotorbikeDetails extends StatelessWidget {
   final Motorbike motorbike;
@@ -11,6 +13,7 @@ class MotorbikeDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brandProvider = Provider.of<BrandProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -38,7 +41,7 @@ class MotorbikeDetails extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      motorbike.brand.name,
+                      brandProvider.findBrand(motorbike.brandId)?.name ?? '',
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                           fontSize: 15,
@@ -72,13 +75,22 @@ class MotorbikeDetails extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           children: [
                             RentalPriceOptionCard(
-                                motorbike: motorbike, month: 1),
+                              motorbike: motorbike,
+                              month: 6,
+                              discount: 1,
+                            ),
                             const SizedBox(width: 12),
                             RentalPriceOptionCard(
-                                motorbike: motorbike, month: 3),
-                            const SizedBox(width: 12),
+                              motorbike: motorbike,
+                              month: 3,
+                              discount: 0.5,
+                            ),
                             RentalPriceOptionCard(
-                                motorbike: motorbike, month: 6),
+                              motorbike: motorbike,
+                              month: 1,
+                              discount: 0,
+                            ),
+                            const SizedBox(width: 12),
                           ],
                         ),
                       ),
