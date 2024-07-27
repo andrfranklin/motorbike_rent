@@ -7,7 +7,7 @@ import 'package:motorbikes_rent/widgets/motorbike/rental_price_option_card.dart'
 import 'package:provider/provider.dart';
 
 class MotorbikeDetails extends StatelessWidget {
-  final Motorbike motorbike;
+  final MotorbikeModel motorbike;
 
   const MotorbikeDetails({super.key, required this.motorbike});
 
@@ -76,18 +76,18 @@ class MotorbikeDetails extends StatelessWidget {
                           children: [
                             RentalPriceOptionCard(
                               motorbike: motorbike,
-                              month: 6,
+                              months: 6,
                               discount: 1,
                             ),
                             const SizedBox(width: 12),
                             RentalPriceOptionCard(
                               motorbike: motorbike,
-                              month: 3,
+                              months: 3,
                               discount: 0.5,
                             ),
                             RentalPriceOptionCard(
                               motorbike: motorbike,
-                              month: 1,
+                              months: 1,
                               discount: 0,
                             ),
                             const SizedBox(width: 12),

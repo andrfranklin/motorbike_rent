@@ -3,21 +3,21 @@ import 'package:motorbikes_rent/models/motorbike.dart';
 import 'package:motorbikes_rent/widgets/checkout/bottom_sheet_content.dart';
 
 class RentalPriceOptionCard extends StatelessWidget {
-  final Motorbike motorbike;
-  final int month;
+  final MotorbikeModel motorbike;
+  final int months;
   final double discount;
 
   const RentalPriceOptionCard(
       {super.key,
       required this.motorbike,
-      required this.month,
+      required this.months,
       required this.discount});
 
   @override
   Widget build(BuildContext context) {
     final valueDiscounted =
-        (motorbike.rentalPrice * month) - (motorbike.rentalPrice * discount);
-    final rawValue = motorbike.rentalPrice * month;
+        (motorbike.rentalPrice * months) - (motorbike.rentalPrice * discount);
+    final rawValue = motorbike.rentalPrice * months;
     return Container(
       margin: const EdgeInsets.only(top: 16, bottom: 16, right: 6, left: 6),
       child: TextButton(
@@ -26,9 +26,8 @@ class RentalPriceOptionCard extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return BottomSheetContent(
-                month: month,
-                motorbikeId: motorbike.id ?? '',
-                price: valueDiscounted,
+                months: months,
+                motorbike: motorbike,
               );
             },
             isScrollControlled:
@@ -51,7 +50,7 @@ class RentalPriceOptionCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                month > 1 ? "$month Mês" : "$month Meses",
+                months > 1 ? "$months Mês" : "$months Meses",
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,

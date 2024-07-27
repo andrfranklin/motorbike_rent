@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     Provider.of<BrandProvider>(context, listen: false).loadBrands();
-    Provider.of<MotorbikeProvider>(context, listen: false).loadMotorbike();
+    Provider.of<MotorbikeProvider>(context, listen: false).loadMotorbikes();
   }
 
   @override

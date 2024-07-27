@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/models/motorbike.dart';
 import 'package:motorbikes_rent/providers/brand.dart';
-import 'package:motorbikes_rent/utils/base_url.dart';
+import 'package:motorbikes_rent/utils/api/motorbike.dart';
 import 'package:provider/provider.dart';
 
 class MotorbikeCard extends StatelessWidget {
-  final Motorbike motorbike;
+  final MotorbikeModel motorbike;
   final int? cardIndex;
-  final _baseUrlStorage = '${BaseUrl.storage}motorbike%2F';
+  final motorbikeApi = MotorbikeApi();
 
-  const MotorbikeCard({super.key, required this.motorbike, this.cardIndex});
+  MotorbikeCard({super.key, required this.motorbike, this.cardIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class MotorbikeCard extends StatelessWidget {
                 child: Hero(
                   tag: motorbike.model,
                   child: Image.network(
-                    '$_baseUrlStorage${motorbike.images[0]}?alt=media',
+                    motorbikeApi.imageUrl(motorbike.images[0]),
                     fit: BoxFit.fitWidth,
                   ),
                 ),

@@ -1,7 +1,7 @@
-class Brand {
+class BrandModel {
   String? id;
   String name;
   String logo;
 
-  Brand({required this.name, required this.logo, this.id});
+  BrandModel({required this.name, required this.logo, this.id});
 }

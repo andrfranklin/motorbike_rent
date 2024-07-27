@@ -81,8 +81,8 @@ class _SignUpPageState extends State<SignUpPage> {
       if (_validateName(name) &&
           _validateEmail(email) &&
           _validatePassword(password)) {
-        Customer customerData = Customer(name: name, email: email);
-        await customer.signUpCustomer(customerData, password);
+        CustomerModel customerData = CustomerModel(name: name, email: email);
+        await customer.signUp(customerData, password);
       }
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);

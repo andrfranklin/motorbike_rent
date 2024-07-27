@@ -1,7 +1,9 @@
-class Customer {
+class CustomerModel {
   String? id;
   String name;
   String email;
+  String? profileImage;
 
-  Customer({required this.name, required this.email, this.id});
+  CustomerModel(
+      {required this.name, required this.email, this.id, this.profileImage});
 }

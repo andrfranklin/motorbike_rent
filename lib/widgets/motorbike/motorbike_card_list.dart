@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:motorbikes_rent/data/motorbike_data.dart';
 import 'package:motorbikes_rent/providers/motorbike.dart';
 import 'package:motorbikes_rent/screens/motorbike_details.dart';
 import 'package:motorbikes_rent/widgets/motorbike/motorbike_card.dart';

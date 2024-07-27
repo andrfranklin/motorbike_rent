@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:motorbikes_rent/models/motorbike.dart';
 import 'package:motorbikes_rent/providers/customer.dart';
+import 'package:motorbikes_rent/utils/api/rent.dart';
 import 'package:provider/provider.dart';
 
 class BottomSheetContent extends StatelessWidget {
-  final int month;
-  final String motorbikeId;
-  final double price;
+  final int months;
+  final MotorbikeModel motorbike;
+  final rentApi = RentApi();
 
-  const BottomSheetContent(
-      {super.key,
-      required this.month,
-      required this.price,
-      required this.motorbikeId}); // Sua variável
+  BottomSheetContent({
+    super.key,
+    required this.months,
+    required this.motorbike,
+  }); // Sua variável
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class BottomSheetContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Período de $month ${month == 1 ? 'mês' : "meses"}',
+                    'Período de $months ${months == 1 ? 'mês' : "meses"}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 8),
@@ -39,7 +41,7 @@ class BottomSheetContent extends StatelessWidget {
                 ],
               ),
               Text(
-                "R\$ ${(price).toStringAsFixed(2)}", // Seu valor double
+                "R\$ ${(motorbike.price).toStringAsFixed(2)}", // Seu valor double
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -60,7 +62,10 @@ class BottomSheetContent extends StatelessWidget {
                       );
                       return;
                     }
-                    await customerProvider.rent(motorbikeId, month);
+                    await rentApi.rent(
+                        customerId: customerProvider.customer?.id ?? "",
+                        motorbikeModel: motorbike,
+                        months: months);
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/', (Route<dynamic> route) => false);
                   },

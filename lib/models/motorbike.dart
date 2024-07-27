@@ -1,4 +1,4 @@
-class Motorbike {
+class MotorbikeModel {
   String? id;
   String brandId;
   String model;
@@ -6,7 +6,7 @@ class Motorbike {
   double rentalPrice;
   List<String> images;
 
-  Motorbike(
+  MotorbikeModel(
       {required this.brandId,
       required this.model,
       required this.images,

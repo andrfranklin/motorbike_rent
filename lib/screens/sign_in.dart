@@ -19,7 +19,7 @@ class _SignInPageState extends State<SignInPage> {
     final String email = emailController.text;
     final String password = passwordController.text;
     try {
-      await customer.signInCustomer(email, password);
+      await customer.signIn(email: email, password: password);
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
     } catch (e) {
