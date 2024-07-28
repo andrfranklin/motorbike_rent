@@ -11,6 +11,14 @@ class CustomerProvider with ChangeNotifier {
 
   CustomerModel? get customer => _customer;
 
+  bool isCustomerLoggedIn() {
+    if (_customer != null) {
+      return _customer!.id != null;
+    }
+
+    return false;
+  }
+
   Future<void> signIn({required String email, required String password}) async {
     final customer =
         await _customerApi.signIn(email: email, password: password);

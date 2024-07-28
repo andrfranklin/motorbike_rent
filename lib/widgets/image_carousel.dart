@@ -12,7 +12,7 @@ class ImageCarousel extends StatefulWidget {
 }
 
 class ImageCarouselState extends State<ImageCarousel> {
-  int _currentImage = 0;
+  int currentImage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ImageCarouselState extends State<ImageCarousel> {
           physics: const BouncingScrollPhysics(),
           onPageChanged: (int page) {
             setState(() {
-              _currentImage = page;
+              currentImage = page;
             });
           },
           children: widget.motorbike.images.map<Widget>((path) {

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:motorbikes_rent/providers/brand.dart';
-import 'package:motorbikes_rent/providers/customer.dart';
 import 'package:motorbikes_rent/providers/motorbike.dart';
 import 'package:motorbikes_rent/screens/sign_in.dart';
 import 'package:motorbikes_rent/screens/list_motorbike.dart';
+import 'package:motorbikes_rent/widgets/custom_app_bar.dart';
 import 'package:motorbikes_rent/widgets/drawer/custom_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String? _filterName;
   final PageController _pageController = PageController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _findByName(String? name) {
     setState(() {
@@ -34,30 +33,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final customerProvider = Provider.of<CustomerProvider>(context);
-
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'Motorbike Rental',
-          style: GoogleFonts.mulish(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: false,
-        actions: [
-          IconButton(
-            icon: Icon(customerProvider.customer?.id != null
-                ? Icons.person_4_rounded
-                : Icons.menu),
-            onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(scaffoldState: _scaffoldKey),
       endDrawer: CustomDrawer(
         controller: _pageController,
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SearchField extends StatelessWidget {
-  Function findByName;
-  SearchField({super.key, required this.findByName});
+  final Function findByName;
+  const SearchField({super.key, required this.findByName});
 
   @override
   Widget build(BuildContext context) {

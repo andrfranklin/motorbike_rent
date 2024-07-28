@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/providers/customer.dart';
-import 'package:motorbikes_rent/widgets/drawer/drawer_button.dart'
-    as custom_button;
+import 'package:motorbikes_rent/utils/app_routes.dart';
+import 'package:motorbikes_rent/widgets/drawer/custom_drawer_button.dart';
 import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
-  final PageController controller;
+  final PageController? controller;
 
-  const CustomDrawer({super.key, required this.controller});
+  const CustomDrawer({super.key, this.controller});
+
+  String? getCurrentRouteName(BuildContext context) {
+    return ModalRoute.of(context)?.settings.name;
+  }
+
+  void animateToPage(int pageNumber) {
+    if (controller != null) {
+      controller!.animateToPage(
+        pageNumber,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final currentRoute = ModalRoute.of(context)!.settings.name;
     final customerProvider = Provider.of<CustomerProvider>(context);
-    final bool isLoggedIn = customerProvider.customer?.id != null;
+    final bool isLoggedIn = customerProvider.isCustomerLoggedIn();
 
     return Drawer(
       child: Column(
@@ -21,37 +34,42 @@ class CustomDrawer extends StatelessWidget {
           const SizedBox(
             height: 30.0,
           ),
-          custom_button.DrawerButton(
+          CustomDrawerButton(
+              text: 'Home',
+              route: '/',
+              onPressed: () {
+                animateToPage(0);
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              }),
+          CustomDrawerButton(
+            text: 'Meus aluguéis',
+            route: AppRoutes.RENTAL_LIST,
+            onPressed: true
+                ? null
+                : () {
+                    animateToPage(1);
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  },
+          ),
+          const CustomDrawerButton(
+            text: 'Notificações',
+            route: '/notifications',
+          ),
+          CustomDrawerButton(
             text: 'Minha Conta',
             route: '/account',
-            currentRoute: currentRoute,
             onPressed: isLoggedIn
                 ? null
                 : () {
-                    controller.animateToPage(
-                      1,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.decelerate,
-                    );
-                    Navigator.pop(context);
+                    animateToPage(1);
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
                   },
           ),
-          custom_button.DrawerButton(
-            text: 'Notificações',
-            route: '/notifications',
-            currentRoute: currentRoute,
-          ),
-          custom_button.DrawerButton(
-            text: 'Pagamentos',
-            route: '/payments',
-            currentRoute: currentRoute,
-          ),
-          custom_button.DrawerButton(
+          const CustomDrawerButton(
             text: 'Configurações',
             route: '/settings',
-            currentRoute: currentRoute,
           ),
-          if (isLoggedIn) Spacer(),
+          if (isLoggedIn) const Spacer(),
           if (isLoggedIn)
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -65,7 +83,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 onPressed: () {
                   customerProvider.signOut();
-                  Navigator.pop(context);
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

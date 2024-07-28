@@ -15,7 +15,8 @@ class RentApi {
   }) async {
     try {
       final startDate = DateTime.now().toIso8601String();
-      final endDate = DateTime.now().add(Duration(days: (months * 30)));
+      final endDate =
+          DateTime.now().add(Duration(days: (months * 30))).toIso8601String();
       await http.post(
         Uri.parse('$_baseUrlDb/$customerId.json'),
         headers: <String, String>{
@@ -46,11 +47,10 @@ class RentApi {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-
       final Map<String, dynamic> data = jsonDecode(response.body);
       data.forEach((key, value) {
-        rentals.add(RentalModel(
-            value.motorbikeId, value.startDate, value.endDate, value.price));
+        rentals.add(RentalModel(value["motorbikeId"], value["startDate"],
+            value["endDate"], value["price"]));
       });
 
       return rentals;

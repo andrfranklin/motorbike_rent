@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/models/customer.dart';
 import 'package:motorbikes_rent/providers/customer.dart';
+import 'package:motorbikes_rent/widgets/layouts/base_layout.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -10,27 +11,27 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final CustomerProvider customer = CustomerProvider();
-  String? errorMessageName;
-  String? errorMessageEmail;
-  String? errorMessagePassword;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final CustomerProvider _customer = CustomerProvider();
+  String? _errorMessageName;
+  String? _errorMessageEmail;
+  String? _errorMessagePassword;
 
   bool _validatePassword(String senha) {
     setState(() {
-      errorMessagePassword = null;
+      _errorMessagePassword = null;
     });
     if (senha.length < 6) {
       setState(() {
-        errorMessagePassword = 'A senha deve ter pelo menos 6 caracteres';
+        _errorMessagePassword = 'A senha deve ter pelo menos 6 caracteres';
       });
       return false;
     }
     if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(senha)) {
       setState(() {
-        errorMessagePassword =
+        _errorMessagePassword =
             'A senha deve conter pelo menos um caractere especial';
       });
       return false;
@@ -41,13 +42,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool _validateEmail(String email) {
     setState(() {
-      errorMessageEmail = null;
+      _errorMessageEmail = null;
     });
     String pattern = r'^[^@\s]+@[^@\s]+\.[^@\s]+$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(email)) {
       setState(() {
-        errorMessageEmail = 'Formato de email inválido';
+        _errorMessageEmail = 'Formato de email inválido';
       });
       return false;
     }
@@ -56,17 +57,17 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool _validateName(String name) {
     setState(() {
-      errorMessageName = null;
+      _errorMessageName = null;
     });
     if (name.length < 3 || name.length > 50) {
       setState(() {
-        errorMessageName = 'O nome deve ter entre 3 e 50 caracteres';
+        _errorMessageName = 'O nome deve ter entre 3 e 50 caracteres';
       });
       return false;
     }
     if (!RegExp(r'^[a-zA-ZÀ-ÿ\s]+$').hasMatch(name)) {
       setState(() {
-        errorMessageName = 'O nome não deve conter caracteres especiais';
+        _errorMessageName = 'O nome não deve conter caracteres especiais';
       });
       return false;
     }
@@ -74,15 +75,15 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> _registerUser() async {
-    final String name = nameController.text;
-    final String email = emailController.text;
-    final String password = passwordController.text;
+    final String name = _nameController.text;
+    final String email = _emailController.text;
+    final String password = _passwordController.text;
     try {
       if (_validateName(name) &&
           _validateEmail(email) &&
           _validatePassword(password)) {
         CustomerModel customerData = CustomerModel(name: name, email: email);
-        await customer.signUp(customerData, password);
+        await _customer.signUp(customerData, password);
       }
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
@@ -101,10 +102,9 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+      body: BaseLayout(
+        child: Center(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -116,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: nameController,
+                  controller: _nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Nome',
@@ -124,16 +124,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     fillColor: Colors.white,
                   ),
                 ),
-                if (errorMessageName != null) ...[
+                if (_errorMessageName != null) ...[
                   const SizedBox(height: 5),
                   Text(
-                    errorMessageName!,
+                    _errorMessageName!,
                     style: const TextStyle(color: Colors.red),
                   ),
                 ],
                 const SizedBox(height: 20),
                 TextField(
-                  controller: emailController,
+                  controller: _emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'E-mail',
@@ -141,16 +141,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     fillColor: Colors.white,
                   ),
                 ),
-                if (errorMessageEmail != null) ...[
+                if (_errorMessageEmail != null) ...[
                   const SizedBox(height: 5),
                   Text(
-                    errorMessageEmail!,
+                    _errorMessageEmail!,
                     style: const TextStyle(color: Colors.red),
                   ),
                 ],
                 const SizedBox(height: 20),
                 TextField(
-                  controller: passwordController,
+                  controller: _passwordController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Senha',
@@ -159,10 +159,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   obscureText: true,
                 ),
-                if (errorMessagePassword != null) ...[
+                if (_errorMessagePassword != null) ...[
                   const SizedBox(height: 5),
                   Text(
-                    errorMessagePassword!,
+                    _errorMessagePassword!,
                     style: const TextStyle(color: Colors.red),
                   ),
                 ],

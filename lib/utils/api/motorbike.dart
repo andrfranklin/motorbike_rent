@@ -42,19 +42,25 @@ class MotorbikeApi {
   }
 
   Future<MotorbikeModel?> readMotorbike({required String motorbikeId}) async {
-    final response = await http.get(
-      Uri.parse('$_baseUrlDb/motorbike/$motorbikeId'),
-    );
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrlDb/$motorbikeId.json'),
+      );
 
-    if (response.statusCode == 200) {
-      var fields = jsonDecode(response.body)['fields'];
-      return MotorbikeModel(
-          brandId: fields['brandId'],
-          images: fields['images'],
-          model: fields['model'],
-          price: fields['price']);
-    } else {
-      return null;
+      if (response.statusCode == 200) {
+        final fields = jsonDecode(response.body);
+        return MotorbikeModel(
+            brandId: fields['brandId'],
+            images: List<String>.from(fields['images']),
+            model: fields['model'],
+            price: double.parse(fields['price'].toString()),
+            id: motorbikeId);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('Failed to load motorbike');
     }
   }
 
