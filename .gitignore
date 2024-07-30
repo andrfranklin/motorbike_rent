@@ -48,3 +48,4 @@ app.*.map.json
 /web/*
 /macos/*
 /ios/*
+**/firebase_config.*

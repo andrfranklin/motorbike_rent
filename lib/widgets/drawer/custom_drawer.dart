@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/providers/customer.dart';
+import 'package:motorbikes_rent/utils/api/firebase_api.dart';
 import 'package:motorbikes_rent/utils/app_routes.dart';
 import 'package:motorbikes_rent/widgets/drawer/custom_drawer_button.dart';
 import 'package:provider/provider.dart';
@@ -41,23 +42,20 @@ class CustomDrawer extends StatelessWidget {
                 animateToPage(0);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               }),
-          CustomDrawerButton(
+          const CustomDrawerButton(
             text: 'Meus aluguéis',
             route: AppRoutes.RENTAL_LIST,
-            onPressed: true
-                ? null
-                : () {
-                    animateToPage(1);
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
-                  },
           ),
-          const CustomDrawerButton(
+          CustomDrawerButton(
             text: 'Notificações',
             route: '/notifications',
+            onPressed: () async {
+              await FirebaseApi.initNotifications();
+            },
           ),
           CustomDrawerButton(
             text: 'Minha Conta',
-            route: '/account',
+            route: AppRoutes.PROFILE,
             onPressed: isLoggedIn
                 ? null
                 : () {

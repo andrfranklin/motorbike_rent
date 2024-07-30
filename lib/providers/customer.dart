@@ -51,4 +51,10 @@ class CustomerProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void setProfileImage(String path) {
+    if (customer == null) return;
+    customer!.profileImage = path;
+    notifyListeners();
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:motorbikes_rent/models/rental.dart';
 import 'package:motorbikes_rent/providers/customer.dart';
 import 'package:motorbikes_rent/providers/motorbike.dart';
+import 'package:motorbikes_rent/utils/Database/db.dart';
 import 'package:motorbikes_rent/utils/api/motorbike.dart';
 import 'package:motorbikes_rent/utils/api/rent.dart';
 import 'package:motorbikes_rent/widgets/custom_app_bar.dart';
@@ -23,16 +24,52 @@ class _RentalScreenState extends State<RentalScreen> {
   final _rentalApi = RentApi();
   final _motorbikeApi = MotorbikeApi();
 
+  getRentals(CustomerProvider customerProvider) async {
+    if (_rentals.isNotEmpty) return;
+
+    if (customerProvider.isCustomerLoggedIn()) {
+      final response = await _rentalApi.getRent(
+          customerId: customerProvider.customer?.id! ?? "");
+
+      response.forEach((item) async {
+        await DBUtil.upsert('rental', {
+          'id': item.id,
+          'endDate': item.endDate,
+          'startDate': item.startDate,
+          'price': item.price,
+          'productId': item.productId,
+        });
+      });
+
+      setState(() => _rentals.addAll(response));
+      return;
+    }
+    final dataList = await DBUtil.getData(table: 'rental');
+    final mappedValues = dataList
+        .map((item) => RentalModel(
+            id: item['id'],
+            endDate: item['endDate'],
+            price: item['price'],
+            productId: item['productId'],
+            startDate: item['startDate']))
+        .toList();
+    setState(() => _rentals.addAll(mappedValues));
+  }
+
+  getMotorbike(String motorbikeId, MotorbikeProvider motorbikeProvider) async {
+    final dataList =
+        await DBUtil.getData(table: 'motorbike', where: 'id = $motorbikeId');
+    if (dataList.isEmpty) {
+      return motorbikeProvider.readMotorbike(motorbikeId: motorbikeId);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final motorbikeProvider = Provider.of<MotorbikeProvider>(context);
     final customerProvider = Provider.of<CustomerProvider>(context);
 
-    if (customerProvider.isCustomerLoggedIn() && _rentals.isEmpty) {
-      _rentalApi
-          .getRent(customerId: customerProvider.customer?.id! ?? "")
-          .then((value) => {setState(() => _rentals.addAll(value))});
-    }
+    getRentals(customerProvider);
 
     return Scaffold(
       key: _scaffoldKey,

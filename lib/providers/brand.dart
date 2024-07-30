@@ -24,6 +24,7 @@ class BrandProvider with ChangeNotifier {
   Future<void> loadBrands() async {
     final response = await _brandApi.loadBrands();
     _brands = response;
+    notifyListeners();
   }
 
   Future<BrandModel?> readBrand(String brandId) async {

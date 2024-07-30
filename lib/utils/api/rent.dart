@@ -49,8 +49,12 @@ class RentApi {
       );
       final Map<String, dynamic> data = jsonDecode(response.body);
       data.forEach((key, value) {
-        rentals.add(RentalModel(value["motorbikeId"], value["startDate"],
-            value["endDate"], value["price"]));
+        rentals.add(RentalModel(
+            id: key,
+            productId: value["motorbikeId"],
+            startDate: value["startDate"],
+            endDate: value["endDate"],
+            price: value["price"]));
       });
 
       return rentals;

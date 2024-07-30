@@ -58,6 +58,7 @@ class _SignInPageState extends State<SignInPage> {
                   filled: true,
                   fillColor: Colors.white,
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 20),
               TextField(

@@ -123,6 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     filled: true,
                     fillColor: Colors.white,
                   ),
+                  keyboardType: TextInputType.name,
                 ),
                 if (_errorMessageName != null) ...[
                   const SizedBox(height: 5),
@@ -140,6 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     filled: true,
                     fillColor: Colors.white,
                   ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
                 if (_errorMessageEmail != null) ...[
                   const SizedBox(height: 5),
@@ -158,6 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     fillColor: Colors.white,
                   ),
                   obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
                 ),
                 if (_errorMessagePassword != null) ...[
                   const SizedBox(height: 5),

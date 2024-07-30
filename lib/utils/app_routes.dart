@@ -3,5 +3,5 @@ class AppRoutes {
   static const SIGN_IN = '/sign-in';
   static const RENTING = '/renting';
   static const RENTAL_LIST = '/rental-list';
-  static const CHECKOUT = '/checkout';
+  static const PROFILE = '/profile';
 }
